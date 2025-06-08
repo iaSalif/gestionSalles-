@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "148926643297",
+    "project_id": "gestion-salles-unz",
+    "storage_bucket": "gestion-salles-unz.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148926643297:android:a150b7f097f4e1b0d0fe20",
+        "android_client_info": {
+          "package_name": "com.domain.gestionsallesunz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzIJfC5nIfiDFMA9q-wwUB1T4hp4cln4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148926643297:android:4af8516edb2c5f4dd0fe20",
+        "android_client_info": {
+          "package_name": "com.example.gestion_salles"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzIJfC5nIfiDFMA9q-wwUB1T4hp4cln4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

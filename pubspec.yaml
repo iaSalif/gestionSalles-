@@ -1,0 +1,46 @@
+name: gestion_salles
+description: "Application de gestion des salles UNZ"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  animate_do: ^4.2.0
+  firebase_core: ^3.13.1
+  firebase_auth: ^5.5.4
+  cloud_firestore: ^5.6.8
+  shared_preferences: ^2.2.2
+  # Pour les graphiques et statistiques
+  fl_chart: ^0.68.0  # Pour les graphiques (LineChart, BarChart, PieChart)
+
+  # Optionnel : pour des graphiques plus avancés
+  syncfusion_flutter_charts: ^24.1.41  # Alternative avec plus d'options
+
+  # Pour l'export de données
+  pdf: ^3.10.7  # Pour générer des PDFs
+  excel: ^4.0.2  # Pour générer des fichiers Excel
+
+  # Pour les calculs statistiques
+  collection: ^1.18.0  # Pour des collections avancées
+
+  # Pour les dates et formatage
+  intl: ^0.19.0  # Pour le formatage des nombres et dates
+  firebase_performance: ^0.10.1+6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/backgrounds/
+    # ou spécifiquement
+    - assets/backgrounds/login_bg.png
