@@ -6,8 +6,8 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(title: const Text("Gestion des Salles UNZ"),),
-      body: Center(child: Text("Hello"))
+      appBar: AppBar(title: const Text("Gestion des Salles UNZ")),
+      body: Center(child: Text("Hello")),
     );
   }
 }

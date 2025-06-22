@@ -86,5 +86,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'gestion-salles-unz.firebasestorage.app',
     measurementId: 'G-5DQRGKLHSH',
   );
-
 }

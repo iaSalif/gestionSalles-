@@ -40,7 +40,12 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   );
 
   static const EdgeInsets _defaultPadding = EdgeInsets.all(20);
-  static const EdgeInsets _sectionPadding = EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 40);
+  static const EdgeInsets _sectionPadding = EdgeInsets.only(
+    left: 20,
+    right: 20,
+    top: 20,
+    bottom: 40,
+  );
 
   // Index pour la navigation bottom
   int _currentIndex = 0;
@@ -55,14 +60,20 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       await FirebaseAuth.instance.signOut();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Déconnexion réussie'), backgroundColor: Colors.green),
+          const SnackBar(
+            content: Text('Déconnexion réussie'),
+            backgroundColor: Colors.green,
+          ),
         );
-        AppRoutes.navigateToLogin(context); // Redirige vers la page de connexion
+        AppRoutes.navigateToLogin(context);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur lors de la déconnexion: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Erreur lors de la déconnexion: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -72,10 +83,11 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return AuthWrapper(
-      requiredRole: 'administrateur', // ou 'admin'
+      requiredRole: 'administrateur',
       child: Scaffold(
         backgroundColor: _backgroundColor,
         appBar: _buildAppBar(),
+        drawer: _buildDrawer(),
         body: SingleChildScrollView(
           padding: _sectionPadding,
           child: Column(
@@ -87,14 +99,201 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               const SizedBox(height: 32),
               _buildSystemManagementSection(),
               const SizedBox(height: 32),
-              _buildQuickActionsSection(screenWidth),
-              const SizedBox(height: 80), // Espace pour le bottom navigation
+              const SizedBox(height: 80),
             ],
           ),
         ),
-        floatingActionButton: _buildFloatingActionButton(),
         bottomNavigationBar: _buildBottomNavigationBar(),
       ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      title: const Text(
+        'Tableau de bord Admin',
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: _primaryColor,
+      elevation: 0,
+      automaticallyImplyLeading: true,
+      iconTheme: const IconThemeData(color: Colors.white),
+    );
+  }
+
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          Container(
+            height: 200,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [_primaryColor, _secondaryColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.admin_panel_settings,
+                        size: 35,
+                        color: _primaryColor,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Administrateur',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      FirebaseAuth.instance.currentUser?.email ?? '',
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _buildDrawerItem(
+                  icon: Icons.dashboard,
+                  title: 'Tableau de bord',
+                  onTap: () => Navigator.pop(context),
+                ),
+                const Divider(),
+                _buildDrawerItem(
+                  icon: Icons.manage_accounts,
+                  title: 'Gérer les utilisateurs',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _navigateToUserManagement();
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.school,
+                  title: 'Gérer les UFR',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _navigateToUFRManagement();
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.meeting_room,
+                  title: 'Gérer les salles',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _navigateToRoomManagement();
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.security,
+                  title: 'Droits d\'accès',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _navigateToAccessRights();
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.notifications,
+                  title: 'Notifications',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _navigateToNotifications();
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.analytics,
+                  title: 'Statistiques',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _navigateToStatistics();
+                  },
+                ),
+                const Divider(),
+                _buildDrawerItem(
+                  icon: Icons.settings,
+                  title: 'Paramètres',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showSnackBar('Paramètres');
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.help,
+                  title: 'Aide',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showSnackBar('Aide');
+                  },
+                ),
+                _buildDrawerItem(
+                  icon: Icons.info,
+                  title: 'À propos',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showSnackBar('À propos de l\'application');
+                  },
+                ),
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: Colors.grey.shade300)),
+            ),
+            child: _buildDrawerItem(
+              icon: Icons.logout,
+              title: 'Déconnexion',
+              iconColor: Colors.red,
+              onTap: () {
+                Navigator.pop(context);
+                _signOut();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    Color? iconColor,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: iconColor ?? _primaryColor),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: iconColor == Colors.red ? Colors.red : _textColor,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      onTap: onTap,
+      horizontalTitleGap: 10,
     );
   }
 
@@ -120,17 +319,11 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Bienvenue, Administrateur',
-            style: _headerTitleStyle,
-          ),
+          Text('Bienvenue, Administrateur', style: _headerTitleStyle),
           SizedBox(height: 8),
           Text(
             'Système de gestion des salles',
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
           ),
         ],
       ),
@@ -144,36 +337,6 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         const Text('Vue d\'ensemble', style: _titleStyle),
         const SizedBox(height: 16),
         _buildStatsGrid(screenWidth),
-      ],
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: const Text(
-        'Tableau de bord Admin',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      backgroundColor: _primaryColor,
-      elevation: 0,
-
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.notifications, color: Colors.white),
-          onPressed: _navigateToNotifications,
-        ),
-        IconButton(
-          icon: const Icon(Icons.settings, color: Colors.white),
-          onPressed: () => _showSnackBar('Paramètres'),
-        ),
-        IconButton(
-          icon: const Icon(Icons.logout, color: Colors.white),
-          onPressed: () => AppRoutes.performLogout(context),
-          tooltip: 'Déconnexion',
-        )
       ],
     );
   }
@@ -260,7 +423,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         decoration: BoxDecoration(
-          color: isSelected ? _primaryColor.withOpacity(0.1) : Colors.transparent,
+          color:
+              isSelected ? _primaryColor.withOpacity(0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -296,23 +460,18 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
     switch (index) {
       case 0:
-      // Accueil - déjà sur la page
         _showSnackBar('Accueil');
         break;
       case 1:
-      // Historique
-        _navigateToStatistics(); // Utilise les statistiques comme historique
+        _navigateToStatistics();
         break;
       case 2:
-      // QR Code Scanner
         _showSnackBar('Scanner QR Code');
         break;
       case 3:
-      // Notifications
         _navigateToNotifications();
         break;
       case 4:
-      // Autres options
         _showMoreOptions();
         break;
     }
@@ -324,55 +483,53 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (_) => Container(
-        padding: _defaultPadding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Plus d\'options',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+      builder:
+          (_) => Container(
+            padding: _defaultPadding,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Plus d\'options',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: const Icon(Icons.settings, color: _primaryColor),
+                  title: const Text('Paramètres'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showSnackBar('Paramètres');
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.help, color: _primaryColor),
+                  title: const Text('Aide'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showSnackBar('Aide');
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.info, color: _primaryColor),
+                  title: const Text('À propos'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showSnackBar('À propos de l\'application');
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.logout, color: Colors.red),
+                  title: const Text('Déconnexion'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _signOut();
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            ListTile(
-              leading: const Icon(Icons.settings, color: _primaryColor),
-              title: const Text('Paramètres'),
-              onTap: () {
-                Navigator.pop(context);
-                _showSnackBar('Paramètres');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.help, color: _primaryColor),
-              title: const Text('Aide'),
-              onTap: () {
-                Navigator.pop(context);
-                _showSnackBar('Aide');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.info, color: _primaryColor),
-              title: const Text('À propos'),
-              onTap: () {
-                Navigator.pop(context);
-                _showSnackBar('À propos de l\'application');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text('Déconnexion'),
-              onTap: () {
-                Navigator.pop(context);
-                _signOut();
-              },
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -439,7 +596,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                 cardWidth,
               );
             }
-            final salleCount = snapshot.hasData ? snapshot.data!.docs.length : 0;
+            final salleCount =
+                snapshot.hasData ? snapshot.data!.docs.length : 0;
             return _buildStatCard(
               'Salles',
               '$salleCount',
@@ -490,9 +648,10 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       stream: NotificationService().notificationsStream,
       builder: (context, snapshot) {
         final notificationCount = snapshot.hasData ? snapshot.data!.length : 0;
-        final unreadCount = snapshot.hasData
-            ? snapshot.data!.where((n) => !n.isRead).length
-            : 0;
+        final unreadCount =
+            snapshot.hasData
+                ? snapshot.data!.where((n) => !n.isRead).length
+                : 0;
 
         return _buildStatCard(
           'Notifications',
@@ -518,12 +677,42 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
   Widget _buildFunctionGrid() {
     final functions = [
-      FunctionData('Gérer les utilisateurs', Icons.manage_accounts, _primaryColor, _navigateToUserManagement),
-      FunctionData('Gérer les UFR', Icons.school, const Color(0xFF9C27B0), _navigateToUFRManagement),
-      FunctionData('Gérer les salles', Icons.meeting_room, const Color(0xFFFF9800), _navigateToRoomManagement),
-      FunctionData('Droits d\'accès', Icons.security, const Color(0xFF4CAF50), _navigateToAccessRights),
-      FunctionData('Notifications', Icons.notifications, const Color(0xFFF44336), _navigateToNotifications),
-      FunctionData('Statistiques', Icons.analytics, const Color(0xFF607D8B), _navigateToStatistics),
+      FunctionData(
+        'Gérer les utilisateurs',
+        Icons.manage_accounts,
+        _primaryColor,
+        _navigateToUserManagement,
+      ),
+      FunctionData(
+        'Gérer les UFR',
+        Icons.school,
+        const Color(0xFF9C27B0),
+        _navigateToUFRManagement,
+      ),
+      FunctionData(
+        'Gérer les salles',
+        Icons.meeting_room,
+        const Color(0xFFFF9800),
+        _navigateToRoomManagement,
+      ),
+      FunctionData(
+        'Droits d\'accès',
+        Icons.security,
+        const Color(0xFF4CAF50),
+        _navigateToAccessRights,
+      ),
+      FunctionData(
+        'Notifications',
+        Icons.notifications,
+        const Color(0xFFF44336),
+        _navigateToNotifications,
+      ),
+      FunctionData(
+        'Statistiques',
+        Icons.analytics,
+        const Color(0xFF607D8B),
+        _navigateToStatistics,
+      ),
     ];
 
     return GridView.builder(
@@ -548,90 +737,12 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     );
   }
 
-  Widget _buildQuickActionsSection(double screenWidth) {
-    return Container(
-      width: double.infinity,
-      padding: _defaultPadding,
-      decoration: _buildCardDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Actions rapides',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: _textColor,
-            ),
-          ),
-          const SizedBox(height: 16),
-          _buildQuickActionButtons(screenWidth),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickActionButtons(double screenWidth) {
-    if (screenWidth < 400) {
-      return Column(
-        children: [
-          _buildQuickActionButton(
-            'Ajouter utilisateur',
-            Icons.person_add,
-            _primaryColor,
-            _addNewUser,
-          ),
-          const SizedBox(height: 8),
-          _buildQuickActionButton(
-            'Notification',
-            Icons.send,
-            const Color(0xFFF44336),
-            _sendNotification,
-          ),
-          const SizedBox(height: 8),
-          _buildQuickActionButton(
-            'Déconnexion',
-            Icons.logout,
-            Colors.red, // Couleur distinctive pour la déconnexion
-            _signOut,
-          ),
-        ],
-      );
-    }
-
-    return Row(
-      children: [
-        Expanded(
-          child: _buildQuickActionButton(
-            'Ajouter utilisateur',
-            Icons.person_add,
-            _primaryColor,
-            _addNewUser,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _buildQuickActionButton(
-            'Notification',
-            Icons.send,
-            const Color(0xFFF44336),
-            _sendNotification,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _buildQuickActionButton(
-            'Déconnexion',
-            Icons.logout,
-            Colors.red,
-            _signOut,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildQuickActionButton(String label, IconData icon, Color color, VoidCallback onPressed) {
+  Widget _buildQuickActionButton(
+    String label,
+    IconData icon,
+    Color color,
+    VoidCallback onPressed,
+  ) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
@@ -647,15 +758,19 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
           backgroundColor: color,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       ),
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color, double width) {
+  Widget _buildStatCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+    double width,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: _buildCardDecoration(),
@@ -690,10 +805,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
           const SizedBox(height: 4),
           Text(
             title,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
@@ -702,7 +814,12 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     );
   }
 
-  Widget _buildFunctionCard(String title, IconData icon, Color color, VoidCallback onTap) {
+  Widget _buildFunctionCard(
+    String title,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -741,14 +858,6 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     );
   }
 
-  Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      onPressed: _showQuickMenu,
-      backgroundColor: _primaryColor,
-      child: const Icon(Icons.add, color: Colors.white),
-    );
-  }
-
   BoxDecoration _buildCardDecoration() {
     return BoxDecoration(
       color: _cardColor,
@@ -780,7 +889,9 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   void _navigateToRoomManagement() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const RoomManagementScreen(ufrId: null)),
+      MaterialPageRoute(
+        builder: (_) => const RoomManagementScreen(ufrId: null),
+      ),
     );
   }
 
@@ -806,62 +917,105 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   }
 
   void _addNewUser() {
-    _showSnackBar('Ajout d\'un nouvel utilisateur');
+    _showSnackBar('Ajouter un nouvel utilisateur');
   }
 
   void _sendNotification() {
-    _showSnackBar('Envoi d\'une notification');
+    _showSnackBar('Envoyer une notification');
+    _showNotificationDialog();
+  }
+
+  void _showNotificationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final TextEditingController titleController = TextEditingController();
+        final TextEditingController messageController = TextEditingController();
+
+        return AlertDialog(
+          title: const Text('Envoyer une notification'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Titre',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: messageController,
+                decoration: const InputDecoration(
+                  labelText: 'Message',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Annuler'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _sendNotificationToUsers(
+                  titleController.text,
+                  messageController.text,
+                );
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _primaryColor,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Envoyer'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _sendNotificationToUsers(String title, String message) async {
+    if (title.isEmpty || message.isEmpty) {
+      _showSnackBar('Veuillez remplir tous les champs');
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance.collection('notifications').add({
+        'title': title,
+        'message': message,
+        'timestamp': FieldValue.serverTimestamp(),
+        'senderId': FirebaseAuth.instance.currentUser?.uid ?? '',
+        'sender': FirebaseAuth.instance.currentUser?.email ?? 'Administrateur',
+        'isRead': false,
+        'type': 'admin_broadcast',
+        'priority': 'normal',
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      _showSnackBar('Notification envoyée avec succès');
+    } catch (e) {
+      _showSnackBar('Erreur lors de l\'envoi: $e');
+    }
   }
 
   void _showSnackBar(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  void _showQuickMenu() {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) => Container(
-        padding: _defaultPadding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Actions rapides',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            ..._buildQuickMenuItems(),
-          ],
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: _primaryColor,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
-      ),
-    );
-  }
-
-  List<Widget> _buildQuickMenuItems() {
-    final menuItems = [
-      QuickMenuItem('Ajouter un utilisateur', Icons.person_add, _primaryColor, _addNewUser),
-      QuickMenuItem('Ajouter une salle', Icons.meeting_room, const Color(0xFFFF9800), () => _showSnackBar('Ajout d\'une nouvelle salle')),
-      QuickMenuItem('Ajouter une UFR', Icons.school, const Color(0xFF9C27B0), () => _showSnackBar('Ajout d\'une nouvelle UFR')),
-      QuickMenuItem('Déconnexion', Icons.logout, Colors.red, _signOut), // Ajout de la déconnexion
-    ];
-
-    return menuItems.map((item) => ListTile(
-      leading: Icon(item.icon, color: item.color),
-      title: Text(item.title),
-      onTap: () {
-        Navigator.pop(context);
-        item.onTap();
-      },
-    )).toList();
+      );
+    }
   }
 }
 
@@ -871,14 +1025,62 @@ class FunctionData {
   final Color color;
   final VoidCallback onTap;
 
-  const FunctionData(this.title, this.icon, this.color, this.onTap);
+  FunctionData(this.title, this.icon, this.color, this.onTap);
 }
 
-class QuickMenuItem {
-  final String title;
-  final IconData icon;
-  final Color color;
-  final VoidCallback onTap;
+class NotificationService {
+  Stream<List<NotificationModel>> get notificationsStream {
+    return FirebaseFirestore.instance
+        .collection('notifications')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) {
+                final data = doc.data() as Map<String, dynamic>;
+                return NotificationModel(
+                  id: doc.id,
+                  title: data['title'] ?? '',
+                  message: data['message'] ?? '',
+                  timestamp:
+                      (data['timestamp'] as Timestamp?)?.toDate() ??
+                      DateTime.now(),
+                  senderId: data['senderId'] ?? '',
+                  sender: data['sender'] ?? '',
+                  isRead: data['isRead'] ?? false,
+                  type: data['type'] ?? 'general',
+                  priority: data['priority'] ?? 'normal',
+                  createdAt:
+                      (data['createdAt'] as Timestamp?)?.toDate() ??
+                      DateTime.now(),
+                );
+              }).toList(),
+        );
+  }
+}
 
-  const QuickMenuItem(this.title, this.icon, this.color, this.onTap);
+class NotificationModel {
+  final String id;
+  final String title;
+  final String message;
+  final DateTime timestamp;
+  final String senderId;
+  final String sender;
+  final bool isRead;
+  final String type;
+  final String priority;
+  final DateTime createdAt;
+
+  NotificationModel({
+    required this.id,
+    required this.title,
+    required this.message,
+    required this.timestamp,
+    required this.senderId,
+    required this.sender,
+    required this.isRead,
+    required this.type,
+    required this.priority,
+    required this.createdAt,
+  });
 }

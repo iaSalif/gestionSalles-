@@ -48,10 +48,7 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
       appBar: AppBar(
         title: Text(
           'Programmer Cours/TD',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Color(0xFF1E3A8A),
         elevation: 0,
@@ -84,11 +81,7 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                         color: Color(0xFFFFB800),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Icon(
-                        Icons.add_box,
-                        color: Colors.white,
-                        size: 24,
-                      ),
+                      child: Icon(Icons.add_box, color: Colors.white, size: 24),
                     ),
                     SizedBox(width: 16),
                     Column(
@@ -104,10 +97,7 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                         ),
                         Text(
                           'Planifier une nouvelle session',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
                         ),
                       ],
                     ),
@@ -135,12 +125,18 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Titre du cours
-                    _buildSectionTitle('Informations du cours', Icons.info_outline),
+                    _buildSectionTitle(
+                      'Informations du cours',
+                      Icons.info_outline,
+                    ),
                     SizedBox(height: 15),
 
                     TextFormField(
                       controller: _titreController,
-                      decoration: _buildInputDecoration('Titre du cours', Icons.title),
+                      decoration: _buildInputDecoration(
+                        'Titre du cours',
+                        Icons.title,
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Veuillez saisir le titre du cours';
@@ -155,12 +151,13 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                     DropdownButtonFormField<String>(
                       value: _selectedType,
                       decoration: _buildInputDecoration('Type', Icons.category),
-                      items: _typesCours.map((String type) {
-                        return DropdownMenuItem<String>(
-                          value: type,
-                          child: Text(type),
-                        );
-                      }).toList(),
+                      items:
+                          _typesCours.map((String type) {
+                            return DropdownMenuItem<String>(
+                              value: type,
+                              child: Text(type),
+                            );
+                          }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
                           _selectedType = newValue;
@@ -179,7 +176,10 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                     // Description
                     TextFormField(
                       controller: _descriptionController,
-                      decoration: _buildInputDecoration('Description (optionnel)', Icons.description),
+                      decoration: _buildInputDecoration(
+                        'Description (optionnel)',
+                        Icons.description,
+                      ),
                       maxLines: 3,
                     ),
 
@@ -193,21 +193,30 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                     InkWell(
                       onTap: () => _selectDate(),
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 16,
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey.shade300),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.calendar_today, color: Color(0xFF1E3A8A)),
+                            Icon(
+                              Icons.calendar_today,
+                              color: Color(0xFF1E3A8A),
+                            ),
                             SizedBox(width: 12),
                             Text(
                               _selectedDate == null
                                   ? 'Sélectionner la date'
                                   : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
                               style: TextStyle(
-                                color: _selectedDate == null ? Colors.grey : Colors.black,
+                                color:
+                                    _selectedDate == null
+                                        ? Colors.grey
+                                        : Colors.black,
                                 fontSize: 16,
                               ),
                             ),
@@ -222,7 +231,10 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                     InkWell(
                       onTap: () => _selectTime(),
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 16,
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey.shade300),
                           borderRadius: BorderRadius.circular(8),
@@ -236,7 +248,10 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                                   ? 'Sélectionner l\'heure'
                                   : '${_selectedHeure!.hour.toString().padLeft(2, '0')}:${_selectedHeure!.minute.toString().padLeft(2, '0')}',
                               style: TextStyle(
-                                color: _selectedHeure == null ? Colors.grey : Colors.black,
+                                color:
+                                    _selectedHeure == null
+                                        ? Colors.grey
+                                        : Colors.black,
                                 fontSize: 16,
                               ),
                             ),
@@ -250,13 +265,17 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                     // Salle
                     DropdownButtonFormField<String>(
                       value: _selectedSalle,
-                      decoration: _buildInputDecoration('Salle', Icons.meeting_room),
-                      items: _salles.map((Map<String, String> salle) {
-                        return DropdownMenuItem<String>(
-                          value: salle['id'],
-                          child: Text(salle['nom']!),
-                        );
-                      }).toList(),
+                      decoration: _buildInputDecoration(
+                        'Salle',
+                        Icons.meeting_room,
+                      ),
+                      items:
+                          _salles.map((Map<String, String> salle) {
+                            return DropdownMenuItem<String>(
+                              value: salle['id'],
+                              child: Text(salle['nom']!),
+                            );
+                          }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
                           _selectedSalle = newValue;
@@ -279,13 +298,17 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
                     // Validateur
                     DropdownButtonFormField<String>(
                       value: _selectedValidateur,
-                      decoration: _buildInputDecoration('Validateur', Icons.person),
-                      items: _validateurs.map((Map<String, String> validateur) {
-                        return DropdownMenuItem<String>(
-                          value: validateur['id'],
-                          child: Text(validateur['nom']!),
-                        );
-                      }).toList(),
+                      decoration: _buildInputDecoration(
+                        'Validateur',
+                        Icons.person,
+                      ),
+                      items:
+                          _validateurs.map((Map<String, String> validateur) {
+                            return DropdownMenuItem<String>(
+                              value: validateur['id'],
+                              child: Text(validateur['nom']!),
+                            );
+                          }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
                           _selectedValidateur = newValue;
@@ -366,11 +389,7 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
             color: Color(0xFF1E3A8A).withOpacity(0.1),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Icon(
-            icon,
-            color: Color(0xFF1E3A8A),
-            size: 18,
-          ),
+          child: Icon(icon, color: Color(0xFF1E3A8A), size: 18),
         ),
         SizedBox(width: 10),
         Text(
@@ -410,9 +429,7 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Color(0xFF1E3A8A),
-            ),
+            colorScheme: ColorScheme.light(primary: Color(0xFF1E3A8A)),
           ),
           child: child!,
         );
@@ -432,9 +449,7 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Color(0xFF1E3A8A),
-            ),
+            colorScheme: ColorScheme.light(primary: Color(0xFF1E3A8A)),
           ),
           child: child!,
         );
@@ -520,7 +535,9 @@ class _ProgrammerCoursPageState extends State<ProgrammerCoursPage> {
               Text('Succès'),
             ],
           ),
-          content: Text('Le cours a été programmé avec succès et envoyé pour validation.'),
+          content: Text(
+            'Le cours a été programmé avec succès et envoyé pour validation.',
+          ),
           actions: [
             TextButton(
               onPressed: () {

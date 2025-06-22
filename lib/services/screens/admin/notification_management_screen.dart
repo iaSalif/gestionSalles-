@@ -1,4 +1,3 @@
-
 // services/screens/admin/notification_management_screen.dart
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -11,10 +10,12 @@ class NotificationManagementScreen extends StatefulWidget {
   const NotificationManagementScreen({super.key});
 
   @override
-  State<NotificationManagementScreen> createState() => _NotificationManagementScreenState();
+  State<NotificationManagementScreen> createState() =>
+      _NotificationManagementScreenState();
 }
 
-class _NotificationManagementScreenState extends State<NotificationManagementScreen> {
+class _NotificationManagementScreenState
+    extends State<NotificationManagementScreen> {
   final NotificationService _notificationService = NotificationService();
   List<NotificationModel> _notifications = [];
   bool _isLoading = true;
@@ -40,15 +41,16 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
     _notificationService.initializeNotifications();
 
     // CORRECTION 1: Utiliser StreamSubscription pour pouvoir l'annuler
-    _notificationsSubscription = _notificationService.notificationsStream.listen((notifications) {
-      // Vérifier si le widget est encore monté avant d'appeler setState
-      if (mounted) {
-        setState(() {
-          _notifications = notifications;
-          _isLoading = false;
+    _notificationsSubscription = _notificationService.notificationsStream
+        .listen((notifications) {
+          // Vérifier si le widget est encore monté avant d'appeler setState
+          if (mounted) {
+            setState(() {
+              _notifications = notifications;
+              _isLoading = false;
+            });
+          }
         });
-      }
-    });
   }
 
   List<NotificationModel> get _filteredNotifications {
@@ -58,10 +60,13 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
       case 'read':
         return _notifications.where((n) => n.isRead).toList();
       case 'high_priority':
-        return _notifications.where((n) =>
-        n.priority == NotificationPriority.high ||
-            n.priority == NotificationPriority.urgent
-        ).toList();
+        return _notifications
+            .where(
+              (n) =>
+                  n.priority == NotificationPriority.high ||
+                  n.priority == NotificationPriority.urgent,
+            )
+            .toList();
       default:
         return _notifications;
     }
@@ -91,28 +96,32 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
                   break;
               }
             },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'mark_all_read',
-                child: Row(
-                  children: [
-                    Icon(Icons.done_all),
-                    SizedBox(width: 8),
-                    Text('Marquer tout comme lu'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'delete_all',
-                child: Row(
-                  children: [
-                    Icon(Icons.delete_sweep, color: Colors.red),
-                    SizedBox(width: 8),
-                    Text('Supprimer tout', style: TextStyle(color: Colors.red)),
-                  ],
-                ),
-              ),
-            ],
+            itemBuilder:
+                (context) => [
+                  const PopupMenuItem(
+                    value: 'mark_all_read',
+                    child: Row(
+                      children: [
+                        Icon(Icons.done_all),
+                        SizedBox(width: 8),
+                        Text('Marquer tout comme lu'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'delete_all',
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete_sweep, color: Colors.red),
+                        SizedBox(width: 8),
+                        Text(
+                          'Supprimer tout',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
           ),
         ],
       ),
@@ -139,7 +148,10 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
                     Expanded(
                       child: _buildStatCard(
                         'Non lues',
-                        _notifications.where((n) => !n.isRead).length.toString(),
+                        _notifications
+                            .where((n) => !n.isRead)
+                            .length
+                            .toString(),
                         Icons.notifications_active,
                         Colors.orange,
                       ),
@@ -148,7 +160,12 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
                     Expanded(
                       child: _buildStatCard(
                         'Urgentes',
-                        _notifications.where((n) => n.priority == NotificationPriority.urgent).length.toString(),
+                        _notifications
+                            .where(
+                              (n) => n.priority == NotificationPriority.urgent,
+                            )
+                            .length
+                            .toString(),
                         Icons.priority_high,
                         Colors.red,
                       ),
@@ -170,7 +187,10 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
                         value: _selectedFilter,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
                           isDense: true,
                         ),
                         // CORRECTION 2: Utiliser isExpanded pour éviter le débordement
@@ -184,10 +204,7 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
                             value: 'unread',
                             child: Text('Non lues'),
                           ),
-                          DropdownMenuItem(
-                            value: 'read',
-                            child: Text('Lues'),
-                          ),
+                          DropdownMenuItem(value: 'read', child: Text('Lues')),
                           DropdownMenuItem(
                             value: 'high_priority',
                             child: Text('Priorité élevée'),
@@ -210,18 +227,19 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
 
           // Liste des notifications
           Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _filteredNotifications.isEmpty
-                ? _buildEmptyState()
-                : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: _filteredNotifications.length,
-              itemBuilder: (context, index) {
-                final notification = _filteredNotifications[index];
-                return _buildNotificationCard(notification);
-              },
-            ),
+            child:
+                _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : _filteredNotifications.isEmpty
+                    ? _buildEmptyState()
+                    : ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: _filteredNotifications.length,
+                      itemBuilder: (context, index) {
+                        final notification = _filteredNotifications[index];
+                        return _buildNotificationCard(notification);
+                      },
+                    ),
           ),
         ],
       ),
@@ -229,12 +247,20 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
         onPressed: _showSendNotificationDialog,
         backgroundColor: const Color(0xFF4A90E2),
         icon: const Icon(Icons.send, color: Colors.white),
-        label: const Text('Nouvelle notification', style: TextStyle(color: Colors.white)),
+        label: const Text(
+          'Nouvelle notification',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+  Widget _buildStatCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -261,13 +287,7 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
               color: color,
             ),
           ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-            ),
-          ),
+          Text(title, style: const TextStyle(fontSize: 12, color: Colors.grey)),
         ],
       ),
     );
@@ -293,7 +313,8 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
         title: Text(
           notification.title,
           style: TextStyle(
-            fontWeight: notification.isRead ? FontWeight.normal : FontWeight.bold,
+            fontWeight:
+                notification.isRead ? FontWeight.normal : FontWeight.bold,
           ),
         ),
         subtitle: Column(
@@ -307,22 +328,18 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
             const SizedBox(height: 4),
             Row(
               children: [
-                Icon(
-                  Icons.access_time,
-                  size: 14,
-                  color: Colors.grey[600],
-                ),
+                Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
                 const SizedBox(width: 4),
                 Text(
                   _formatDateTime(notification.createdAt),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
                 const SizedBox(width: 12),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: _getPriorityColor(notification.priority),
                     borderRadius: BorderRadius.circular(10),
@@ -353,29 +370,30 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
                 break;
             }
           },
-          itemBuilder: (context) => [
-            if (!notification.isRead)
-              const PopupMenuItem(
-                value: 'mark_read',
-                child: Row(
-                  children: [
-                    Icon(Icons.done),
-                    SizedBox(width: 8),
-                    Text('Marquer comme lu'),
-                  ],
+          itemBuilder:
+              (context) => [
+                if (!notification.isRead)
+                  const PopupMenuItem(
+                    value: 'mark_read',
+                    child: Row(
+                      children: [
+                        Icon(Icons.done),
+                        SizedBox(width: 8),
+                        Text('Marquer comme lu'),
+                      ],
+                    ),
+                  ),
+                const PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete, color: Colors.red),
+                      SizedBox(width: 8),
+                      Text('Supprimer', style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
                 ),
-              ),
-            const PopupMenuItem(
-              value: 'delete',
-              child: Row(
-                children: [
-                  Icon(Icons.delete, color: Colors.red),
-                  SizedBox(width: 8),
-                  Text('Supprimer', style: TextStyle(color: Colors.red)),
-                ],
-              ),
-            ),
-          ],
+              ],
         ),
         isThreeLine: true,
       ),
@@ -387,11 +405,7 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.notifications_off,
-            size: 64,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.notifications_off, size: 64, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
             'Aucune notification trouvée',
@@ -404,9 +418,7 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
           const SizedBox(height: 8),
           Text(
             'Les notifications apparaîtront ici',
-            style: TextStyle(
-              color: Colors.grey[500],
-            ),
+            style: TextStyle(color: Colors.grey[500]),
           ),
         ],
       ),
@@ -435,48 +447,60 @@ class _NotificationManagementScreenState extends State<NotificationManagementScr
   void _showDeleteDialog(NotificationModel notification) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Supprimer la notification'),
-        content: Text('Êtes-vous sûr de vouloir supprimer "${notification.title}" ?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Supprimer la notification'),
+            content: Text(
+              'Êtes-vous sûr de vouloir supprimer "${notification.title}" ?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Annuler'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _notificationService.deleteNotification(notification.id);
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: const Text(
+                  'Supprimer',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _notificationService.deleteNotification(notification.id);
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Supprimer', style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
     );
   }
 
   void _showDeleteAllDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Supprimer toutes les notifications'),
-        content: const Text('Êtes-vous sûr de vouloir supprimer toutes les notifications ? Cette action est irréversible.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Supprimer toutes les notifications'),
+            content: const Text(
+              'Êtes-vous sûr de vouloir supprimer toutes les notifications ? Cette action est irréversible.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Annuler'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _notificationService.deleteAllNotifications();
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: const Text(
+                  'Supprimer tout',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _notificationService.deleteAllNotifications();
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Supprimer tout', style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
     );
   }
 

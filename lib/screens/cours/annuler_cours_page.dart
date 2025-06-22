@@ -13,8 +13,18 @@ class _AnnulerCoursPageState extends State<AnnulerCoursPage> {
   static const Color _backgroundColor = Color(0xFFF1F5F9);
 
   final List<Map<String, String>> _coursList = [
-    {'id': 'C001', 'titre': 'Mathématiques TD', 'salle': 'Salle A', 'date': '08/06/2025'},
-    {'id': 'C002', 'titre': 'Physique Cours', 'salle': 'Salle B', 'date': '09/06/2025'},
+    {
+      'id': 'C001',
+      'titre': 'Mathématiques TD',
+      'salle': 'Salle A',
+      'date': '08/06/2025',
+    },
+    {
+      'id': 'C002',
+      'titre': 'Physique Cours',
+      'salle': 'Salle B',
+      'date': '09/06/2025',
+    },
   ];
 
   String? _selectedCoursId;
@@ -32,7 +42,9 @@ class _AnnulerCoursPageState extends State<AnnulerCoursPage> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 40), // Ajustement de la largeur
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width - 40,
+          ), // Ajustement de la largeur
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -55,19 +67,22 @@ class _AnnulerCoursPageState extends State<AnnulerCoursPage> {
                     labelText: 'Cours/TD',
                   ),
                   value: _selectedCoursId,
-                  items: _coursList.map((cours) {
-                    return DropdownMenuItem<String>(
-                      value: cours['id'],
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width - 100, // Limite la largeur
-                        child: Text(
-                          '${cours['titre']} - ${cours['salle']} (${cours['date']})',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  items:
+                      _coursList.map((cours) {
+                        return DropdownMenuItem<String>(
+                          value: cours['id'],
+                          child: SizedBox(
+                            width:
+                                MediaQuery.of(context).size.width -
+                                100, // Limite la largeur
+                            child: Text(
+                              '${cours['titre']} - ${cours['salle']} (${cours['date']})',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                   onChanged: (value) {
                     setState(() {
                       _selectedCoursId = value;
@@ -108,11 +123,12 @@ class _AnnulerCoursPageState extends State<AnnulerCoursPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: _selectedCoursId == null || _annulationReason.isEmpty
-                    ? null
-                    : () {
-                  _annulerCours();
-                },
+                onPressed:
+                    _selectedCoursId == null || _annulationReason.isEmpty
+                        ? null
+                        : () {
+                          _annulerCours();
+                        },
                 child: Text(
                   'Confirmer l\'annulation',
                   style: TextStyle(fontSize: 16, color: Colors.white),
@@ -129,7 +145,9 @@ class _AnnulerCoursPageState extends State<AnnulerCoursPage> {
     if (_selectedCoursId != null && _annulationReason.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Cours ${_coursList.firstWhere((cours) => cours['id'] == _selectedCoursId)['titre']} annulé avec succès.'),
+          content: Text(
+            'Cours ${_coursList.firstWhere((cours) => cours['id'] == _selectedCoursId)['titre']} annulé avec succès.',
+          ),
           backgroundColor: _primaryColor,
         ),
       );

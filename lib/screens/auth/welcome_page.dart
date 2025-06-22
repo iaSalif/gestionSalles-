@@ -1,5 +1,7 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gestion_salles/screens/auth/login_screen.dart';
 import 'package:gestion_salles/screens/auth/sign_screen.dart';
 
@@ -8,99 +10,128 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  FadeInUp(
-                    duration: const Duration(milliseconds: 1000),
-                    child: const Text(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // ✅ Background Image
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/backgrounds/login_bg.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          // ✅ Overlay with content
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // ✅ Titre animé
+                  FadeInDown(
+                    duration: const Duration(milliseconds: 800),
+                    child: Text(
                       "Bienvenue",
-                      style: TextStyle(
+                      style: GoogleFonts.montserrat(
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                        color: const Color(0xFF1E88E5), // Couleur bleue UNZ
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
+
+                  // ✅ Carrousel animé
                   FadeInUp(
                     duration: const Duration(milliseconds: 1200),
-                    child: Text(
-                      "Système de gestion des salles avec vérification automatique d'identité",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 15,
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 100,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 4),
+                        enlargeCenterPage: true,
+                        viewportFraction: 1.0,
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              FadeInUp(
-                duration: const Duration(milliseconds: 1400),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/backgrounds/login_bg.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-              ),
-              Column(
-                children: <Widget>[
-                  FadeInUp(
-                    duration: const Duration(milliseconds: 1500),
-                    child: MaterialButton(
-                      minWidth: double.infinity,
-                      height: 60,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(title: 'Se connecter',),
-                          ),
+                      items: [
+                        "Système de gestion des salles avec vérification automatique d'identité",
+                        "Optimisation des programmations de cours et devoirs",
+                        "Réservation intelligente selon la disponibilité",
+                        "Priorité automatique pour les évaluations"
+                      ].map((text) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Text(
+                              text,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.robotoSlab(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                shadows: [
+                                  const Shadow(
+                                    offset: Offset(1, 1),
+                                    blurRadius: 3,
+                                    color: Colors.black45,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         );
-                      },
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: const Text(
-                        "Se connecter",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 60),
+
+                  // ✅ Bouton Se connecter
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 1400),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                              const LoginScreen(title: 'Se connecter'),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF1E88E5),
+                          elevation: 4,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            side: const BorderSide(color: Color(0xFF1E88E5)),
+                          ),
+                        ),
+                        child: const Text(
+                          "Se connecter",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
+
+                  // ✅ Bouton S'inscrire
                   FadeInUp(
                     duration: const Duration(milliseconds: 1600),
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 3, left: 3),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: const Border(
-                          bottom: BorderSide(color: Colors.black),
-                          top: BorderSide(color: Colors.black),
-                          left: BorderSide(color: Colors.black),
-                          right: BorderSide(color: Colors.black),
-                        ),
-                      ),
-                      child: MaterialButton(
-                        minWidth: double.infinity,
-                        height: 60,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -109,16 +140,20 @@ class WelcomePage extends StatelessWidget {
                             ),
                           );
                         },
-                        color: Colors.yellow,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFC107),
+                          foregroundColor: Colors.black,
+                          elevation: 4,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
                         child: const Text(
                           "S'inscrire",
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
                             fontSize: 18,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
@@ -126,9 +161,9 @@ class WelcomePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

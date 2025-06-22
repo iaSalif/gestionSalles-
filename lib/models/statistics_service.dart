@@ -25,7 +25,9 @@ class StatisticModel {
       label: json['label'] ?? '',
       value: (json['value'] ?? 0).toDouble(),
       unit: json['unit'] ?? '',
-      timestamp: DateTime.parse(json['timestamp'] ?? DateTime.now().toIso8601String()),
+      timestamp: DateTime.parse(
+        json['timestamp'] ?? DateTime.now().toIso8601String(),
+      ),
       category: json['category'] ?? '',
     );
   }
@@ -100,7 +102,7 @@ enum StatisticPeriod {
   thisMonth,
   thisQuarter,
   thisYear,
-  custom
+  custom,
 }
 
 class StatisticsService {
@@ -109,9 +111,10 @@ class StatisticsService {
   StatisticsService._internal();
 
   final StreamController<List<StatisticModel>> _statisticsController =
-  StreamController<List<StatisticModel>>.broadcast();
+      StreamController<List<StatisticModel>>.broadcast();
 
-  Stream<List<StatisticModel>> get statisticsStream => _statisticsController.stream;
+  Stream<List<StatisticModel>> get statisticsStream =>
+      _statisticsController.stream;
 
   final List<StatisticModel> _statistics = [];
   final Random _random = Random();
@@ -194,8 +197,12 @@ class StatisticsService {
   }
 
   // Obtenir les statistiques générales
-  Future<Map<String, dynamic>> getOverviewStatistics(StatisticPeriod period) async {
-    await Future.delayed(const Duration(milliseconds: 500)); // Simuler un appel API
+  Future<Map<String, dynamic>> getOverviewStatistics(
+    StatisticPeriod period,
+  ) async {
+    await Future.delayed(
+      const Duration(milliseconds: 500),
+    ); // Simuler un appel API
 
     return {
       'totalBookings': 1247 + _random.nextInt(100),
@@ -211,7 +218,7 @@ class StatisticsService {
         'occupancy': '+5%',
         'users': '+8%',
         'rooms': '+2%',
-      }
+      },
     };
   }
 
@@ -225,11 +232,13 @@ class StatisticsService {
     // Générer des données pour les 7 derniers jours
     for (int i = 6; i >= 0; i--) {
       final date = now.subtract(Duration(days: i));
-      data.add(UsageDataPoint(
-        date: date,
-        value: 50 + _random.nextInt(40).toDouble(),
-        category: 'daily_usage',
-      ));
+      data.add(
+        UsageDataPoint(
+          date: date,
+          value: 50 + _random.nextInt(40).toDouble(),
+          category: 'daily_usage',
+        ),
+      );
     }
 
     return data;
@@ -240,23 +249,37 @@ class StatisticsService {
     await Future.delayed(const Duration(milliseconds: 400));
 
     final rooms = [
-      'Amphi A', 'Amphi B', 'Salle 201', 'Salle 105', 'Labo Info',
-      'Salle 302', 'Salle 204', 'Salle TD1', 'Salle TD2', 'Bibliothèque'
+      'Amphi A',
+      'Amphi B',
+      'Salle 201',
+      'Salle 105',
+      'Labo Info',
+      'Salle 302',
+      'Salle 204',
+      'Salle TD1',
+      'Salle TD2',
+      'Bibliothèque',
     ];
 
-    final roomTypes = ['Amphithéâtre', 'Salle de cours', 'Laboratoire', 'Salle TD'];
+    final roomTypes = [
+      'Amphithéâtre',
+      'Salle de cours',
+      'Laboratoire',
+      'Salle TD',
+    ];
 
     return rooms.map((room) {
-      return RoomStatistic(
-        roomId: room.toLowerCase().replaceAll(' ', '_'),
-        roomName: room,
-        roomType: roomTypes[_random.nextInt(roomTypes.length)],
-        usagePercentage: 30 + _random.nextInt(70).toDouble(),
-        totalBookings: 50 + _random.nextInt(100),
-        averageDuration: 1.5 + (_random.nextDouble() * 3),
-        rating: 3.5 + (_random.nextDouble() * 1.5),
-      );
-    }).toList()..sort((a, b) => b.usagePercentage.compareTo(a.usagePercentage));
+        return RoomStatistic(
+          roomId: room.toLowerCase().replaceAll(' ', '_'),
+          roomName: room,
+          roomType: roomTypes[_random.nextInt(roomTypes.length)],
+          usagePercentage: 30 + _random.nextInt(70).toDouble(),
+          totalBookings: 50 + _random.nextInt(100),
+          averageDuration: 1.5 + (_random.nextDouble() * 3),
+          rating: 3.5 + (_random.nextDouble() * 1.5),
+        );
+      }).toList()
+      ..sort((a, b) => b.usagePercentage.compareTo(a.usagePercentage));
   }
 
   // Obtenir les statistiques des utilisateurs
@@ -275,16 +298,19 @@ class StatisticsService {
     ];
 
     return users.map((user) {
-      return UserStatistic(
-        userId: user['name']!.toLowerCase().replaceAll(' ', '_'),
-        userName: user['name']!,
-        userRole: user['role']!,
-        totalBookings: 5 + _random.nextInt(25),
-        averageBookingDuration: 1.0 + (_random.nextDouble() * 3),
-        lastActivity: DateTime.now().subtract(Duration(days: _random.nextInt(7))),
-        satisfactionScore: 3.0 + (_random.nextDouble() * 2),
-      );
-    }).toList()..sort((a, b) => b.totalBookings.compareTo(a.totalBookings));
+        return UserStatistic(
+          userId: user['name']!.toLowerCase().replaceAll(' ', '_'),
+          userName: user['name']!,
+          userRole: user['role']!,
+          totalBookings: 5 + _random.nextInt(25),
+          averageBookingDuration: 1.0 + (_random.nextDouble() * 3),
+          lastActivity: DateTime.now().subtract(
+            Duration(days: _random.nextInt(7)),
+          ),
+          satisfactionScore: 3.0 + (_random.nextDouble() * 2),
+        );
+      }).toList()
+      ..sort((a, b) => b.totalBookings.compareTo(a.totalBookings));
   }
 
   // Obtenir les données pour le graphique en barres (activité par heure)
@@ -351,7 +377,9 @@ class StatisticsService {
   }
 
   // Obtenir les métriques clés avec comparaison de période
-  Future<Map<String, dynamic>> getKeyMetricsWithComparison(StatisticPeriod period) async {
+  Future<Map<String, dynamic>> getKeyMetricsWithComparison(
+    StatisticPeriod period,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 300));
 
     return {
@@ -372,7 +400,7 @@ class StatisticsService {
         'occupancyRate': 5.4,
         'activeUsers': 8.3,
         'satisfaction': 4.5,
-      }
+      },
     };
   }
 

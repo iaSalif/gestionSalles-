@@ -20,8 +20,16 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
       'departement': 'Sciences',
       'totalSalles': 13,
       'totalCapacite': 2845,
-      'filieres': ['Mathématiques', 'Physique', 'Chimie', 'Biologie', 'Informatique', 'SVT'],
-      'description': 'Unité de Formation et de Recherche en Sciences et Technologies',
+      'filieres': [
+        'Mathématiques',
+        'Physique',
+        'Chimie',
+        'Biologie',
+        'Informatique',
+        'SVT',
+      ],
+      'description':
+          'Unité de Formation et de Recherche en Sciences et Technologies',
       'dateCreation': '2020-01-15',
       'statut': 'Actif',
     },
@@ -32,8 +40,14 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
       'departement': 'Lettres et Sciences Humaines',
       'totalSalles': 3,
       'totalCapacite': 295,
-      'filieres': ['Lettres Modernes', 'Histoire-Géographie', 'Sociologie', 'Philosophie'],
-      'description': 'Unité de Formation et de Recherche en Lettres, Sciences Humaines et Sociales',
+      'filieres': [
+        'Lettres Modernes',
+        'Histoire-Géographie',
+        'Sociologie',
+        'Philosophie',
+      ],
+      'description':
+          'Unité de Formation et de Recherche en Lettres, Sciences Humaines et Sociales',
       'dateCreation': '2019-09-01',
       'statut': 'Actif',
     },
@@ -45,7 +59,8 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
       'totalSalles': 3,
       'totalCapacite': 265,
       'filieres': ['Économie', 'Gestion', 'Comptabilité', 'Finance'],
-      'description': 'Unité de Formation et de Recherche en Sciences Économiques et de Gestion',
+      'description':
+          'Unité de Formation et de Recherche en Sciences Économiques et de Gestion',
       'dateCreation': '2020-03-20',
       'statut': 'Actif',
     },
@@ -56,8 +71,13 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
       'departement': 'Technologie',
       'totalSalles': 3,
       'totalCapacite': 105,
-      'filieres': ['Informatique Appliquée', 'Génie Logiciel', 'Technologies Numériques'],
-      'description': 'Unité spécialisée dans l\'innovation et les technologies numériques',
+      'filieres': [
+        'Informatique Appliquée',
+        'Génie Logiciel',
+        'Technologies Numériques',
+      ],
+      'description':
+          'Unité spécialisée dans l\'innovation et les technologies numériques',
       'dateCreation': '2021-01-10',
       'statut': 'Actif',
     },
@@ -65,9 +85,15 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
 
   List<Map<String, dynamic>> get _filteredUFRs {
     return _ufrs.where((ufr) {
-      return ufr['nom'].toString().toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          ufr['responsables'].toString().toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          ufr['departement'].toString().toLowerCase().contains(_searchQuery.toLowerCase());
+      return ufr['nom'].toString().toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          ) ||
+          ufr['responsables'].toString().toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          ) ||
+          ufr['departement'].toString().toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          );
     }).toList();
   }
 
@@ -141,7 +167,10 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
                   child: _buildStatCard(
                     'Total Salles',
                     _filteredUFRs
-                        .fold(0, (sum, ufr) => sum + (ufr['totalSalles'] as int))
+                        .fold(
+                          0,
+                          (sum, ufr) => sum + (ufr['totalSalles'] as int),
+                        )
                         .toString(),
                     Icons.meeting_room,
                     const Color(0xFF4CAF50),
@@ -152,7 +181,10 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
                   child: _buildStatCard(
                     'Capacité Totale',
                     _filteredUFRs
-                        .fold(0, (sum, ufr) => sum + (ufr['totalCapacite'] as int))
+                        .fold(
+                          0,
+                          (sum, ufr) => sum + (ufr['totalCapacite'] as int),
+                        )
                         .toString(),
                     Icons.people,
                     const Color(0xFFFF9800),
@@ -178,7 +210,12 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+  Widget _buildStatCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -206,10 +243,7 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
           ),
           Text(
             title,
-            style: TextStyle(
-              fontSize: 11,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 11, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
         ],
@@ -289,38 +323,39 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
                         break;
                     }
                   },
-                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                    const PopupMenuItem<String>(
-                      value: 'view',
-                      child: Row(
-                        children: [
-                          Icon(Icons.visibility, color: Color(0xFF4A90E2)),
-                          SizedBox(width: 8),
-                          Text('Voir détails'),
-                        ],
-                      ),
-                    ),
-                    const PopupMenuItem<String>(
-                      value: 'edit',
-                      child: Row(
-                        children: [
-                          Icon(Icons.edit, color: Color(0xFF4A90E2)),
-                          SizedBox(width: 8),
-                          Text('Modifier'),
-                        ],
-                      ),
-                    ),
-                    const PopupMenuItem<String>(
-                      value: 'delete',
-                      child: Row(
-                        children: [
-                          Icon(Icons.delete, color: Colors.red),
-                          SizedBox(width: 8),
-                          Text('Supprimer'),
-                        ],
-                      ),
-                    ),
-                  ],
+                  itemBuilder:
+                      (BuildContext context) => <PopupMenuEntry<String>>[
+                        const PopupMenuItem<String>(
+                          value: 'view',
+                          child: Row(
+                            children: [
+                              Icon(Icons.visibility, color: Color(0xFF4A90E2)),
+                              SizedBox(width: 8),
+                              Text('Voir détails'),
+                            ],
+                          ),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'edit',
+                          child: Row(
+                            children: [
+                              Icon(Icons.edit, color: Color(0xFF4A90E2)),
+                              SizedBox(width: 8),
+                              Text('Modifier'),
+                            ],
+                          ),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'delete',
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete, color: Colors.red),
+                              SizedBox(width: 8),
+                              Text('Supprimer'),
+                            ],
+                          ),
+                        ),
+                      ],
                 ),
               ],
             ),
@@ -335,7 +370,11 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
                 // Responsable
                 Row(
                   children: [
-                    const Icon(Icons.person, color: Color(0xFF4A90E2), size: 20),
+                    const Icon(
+                      Icons.person,
+                      color: Color(0xFF4A90E2),
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'Responsable: ${ufr['responsables']}',
@@ -353,13 +392,25 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: _buildMiniStat('Salles', ufr['totalSalles'].toString(), Icons.meeting_room),
+                      child: _buildMiniStat(
+                        'Salles',
+                        ufr['totalSalles'].toString(),
+                        Icons.meeting_room,
+                      ),
                     ),
                     Expanded(
-                      child: _buildMiniStat('Capacité', ufr['totalCapacite'].toString(), Icons.people),
+                      child: _buildMiniStat(
+                        'Capacité',
+                        ufr['totalCapacite'].toString(),
+                        Icons.people,
+                      ),
                     ),
                     Expanded(
-                      child: _buildMiniStat('Filières', ufr['filieres'].length.toString(), Icons.school),
+                      child: _buildMiniStat(
+                        'Filières',
+                        ufr['filieres'].length.toString(),
+                        Icons.school,
+                      ),
                     ),
                   ],
                 ),
@@ -384,25 +435,33 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
                     // Display first 3 filières
                     ...(ufr['filieres'] as List<String>)
                         .take(3)
-                        .map((filiere) => Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: _getUFRColor(ufr['id']).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        filiere,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: _getUFRColor(ufr['id']),
-                          fontWeight: FontWeight.w500,
+                        .map(
+                          (filiere) => Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _getUFRColor(ufr['id']).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              filiere,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: _getUFRColor(ufr['id']),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    )),
                     // Show "+X more" if there are more than 3 filières
                     if (ufr['filieres'].length > 3)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(6),
@@ -477,13 +536,7 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
               color: Color(0xFF2E3A47),
             ),
           ),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              color: Colors.grey[600],
-            ),
-          ),
+          Text(label, style: TextStyle(fontSize: 10, color: Colors.grey[600])),
         ],
       ),
     );
@@ -524,7 +577,9 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
             constraints: const BoxConstraints(maxHeight: 600),
@@ -584,12 +639,32 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildDetailRow('Responsable', ufr['responsables'], Icons.person),
-                        _buildDetailRow('Département', ufr['departement'], Icons.business),
-                        _buildDetailRow('Date de création', ufr['dateCreation'], Icons.calendar_today),
+                        _buildDetailRow(
+                          'Responsable',
+                          ufr['responsables'],
+                          Icons.person,
+                        ),
+                        _buildDetailRow(
+                          'Département',
+                          ufr['departement'],
+                          Icons.business,
+                        ),
+                        _buildDetailRow(
+                          'Date de création',
+                          ufr['dateCreation'],
+                          Icons.calendar_today,
+                        ),
                         _buildDetailRow('Statut', ufr['statut'], Icons.info),
-                        _buildDetailRow('Total salles', ufr['totalSalles'].toString(), Icons.meeting_room),
-                        _buildDetailRow('Capacité totale', '${ufr['totalCapacite']} places', Icons.people),
+                        _buildDetailRow(
+                          'Total salles',
+                          ufr['totalSalles'].toString(),
+                          Icons.meeting_room,
+                        ),
+                        _buildDetailRow(
+                          'Capacité totale',
+                          '${ufr['totalCapacite']} places',
+                          Icons.people,
+                        ),
 
                         const SizedBox(height: 20),
                         const Text(
@@ -623,26 +698,36 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
-                          children: (ufr['filieres'] as List<String>)
-                              .map((filiere) => Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: _getUFRColor(ufr['id']).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: _getUFRColor(ufr['id']).withOpacity(0.3),
-                              ),
-                            ),
-                            child: Text(
-                              filiere,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: _getUFRColor(ufr['id']),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ))
-                              .toList(),
+                          children:
+                              (ufr['filieres'] as List<String>)
+                                  .map(
+                                    (filiere) => Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 8,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: _getUFRColor(
+                                          ufr['id'],
+                                        ).withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: _getUFRColor(
+                                            ufr['id'],
+                                          ).withOpacity(0.3),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        filiere,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: _getUFRColor(ufr['id']),
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
                         ),
                       ],
                     ),
@@ -744,7 +829,9 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirmer la suppression'),
-          content: Text('Êtes-vous sûr de vouloir supprimer l\'UFR "${ufr['id']}" ?\n\nCette action supprimera également toutes les salles associées.'),
+          content: Text(
+            'Êtes-vous sûr de vouloir supprimer l\'UFR "${ufr['id']}" ?\n\nCette action supprimera également toutes les salles associées.',
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -779,7 +866,7 @@ class _UFRManagementScreenState extends State<UFRManagementScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => RoomManagementScreen(ufrId: null,),
+                builder: (context) => RoomManagementScreen(ufrId: null),
               ),
             );
           },

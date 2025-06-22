@@ -3,16 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gestion_salles/routes/routes.dart';
 import 'package:gestion_salles/widgets/auth_state_listener.dart';
+import 'firebase_options.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    if (kDebugMode) {
+      print('✅ Firebase initialisé avec succès');
+    }
   } catch (e) {
     if (kDebugMode) {
-      print('Erreur lors de l\'initialisation Firebase: $e');
+      print('❌ Erreur Firebase : $e');
     }
+    // Afficher un écran d'erreur si Firebase échoue (optionnel)
+    runApp(const ErrorApp());
+    return;
   }
 
   runApp(const MyApp());
@@ -24,14 +33,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AuthStateListener(
+      autoRedirect: true, // Redirection automatique selon l'état d'authentification
       child: MaterialApp(
         title: 'Gestion des Salles',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          useMaterial3: true,
           primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: 'Roboto',
-
-          // Configuration de l'AppBar
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            },
+          ),
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.blue.shade700,
             foregroundColor: Colors.white,
@@ -43,8 +59,6 @@ class MyApp extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-
-          // Configuration des boutons élevés
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue.shade700,
@@ -56,80 +70,44 @@ class MyApp extends StatelessWidget {
               elevation: 2,
             ),
           ),
-
-          // Configuration des champs de saisie
-          inputDecorationTheme: InputDecorationTheme(
-            filled: true,
-            fillColor: Colors.grey.shade50,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(
-                color: Color(0xFF1E88E5),
-                width: 2,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                color: Colors.red.shade400,
-                width: 1,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                color: Colors.red.shade400,
-                width: 2,
-              ),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          textTheme: const TextTheme(
+            bodyMedium: TextStyle(color: Colors.black87),
+            titleLarge: TextStyle(fontWeight: FontWeight.bold),
           ),
-
-          // Configuration des cartes
-          cardTheme: CardThemeData(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: Colors.white,
-          ),
-
-          // Configuration des Snackbars
-          snackBarTheme: SnackBarThemeData(
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            contentTextStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-
-          // Configuration des couleurs
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blue.shade700,
-            brightness: Brightness.light,
-          ),
+          // Désactiver temporairement les sémantiques pour tester
+          // semanticsDebugger: true, // Activer pour déboguer les sémantiques
         ),
-
-        // Configuration des routes
-        initialRoute: AppRoutes.home,
+        initialRoute: AppRoutes.welcome,
         routes: AppRoutes.routes,
         onGenerateRoute: AppRoutes.onGenerateRoute,
+        // Ajouter un builder pour gérer les erreurs de rendu
+        builder: (context, child) {
+          // Ajouter un ScaffoldMessenger global pour gérer les SnackBars
+          return ScaffoldMessenger(
+            child: child ?? const SizedBox.shrink(),
+          );
+        },
+      ),
+    );
+  }
+}
 
-        // Désactiver le banner de debug
-        debugShowCheckedModeBanner: false,
+// Widget affiché en cas d'erreur d'initialisation Firebase
+class ErrorApp extends StatelessWidget {
+  const ErrorApp({super.key});
 
-        // Configuration de la localisation
-        locale: const Locale('fr', 'FR'),
-
-        // Titre de l'application dans le gestionnaire de tâches
-        onGenerateTitle: (context) => 'Gestion des Salles',
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: Text(
+            'Erreur lors de l\'initialisation de l\'application.\nVeuillez vérifier votre connexion et réessayer.',
+            style: TextStyle(color: Colors.red, fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
     );
   }

@@ -39,7 +39,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
       'salle_nom': 'Amphithéâtre A',
       'createur': 'Dr. OUEDRAOGO',
       'validateur': 'Prof. KABORE',
-      'status': 'validé'
+      'status': 'validé',
     },
     {
       'id': 'TD001',
@@ -51,7 +51,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
       'salle_nom': 'Salle Informatique 2',
       'createur': 'Dr. SAWADOGO',
       'validateur': 'Prof. TRAORE',
-      'status': 'en_attente'
+      'status': 'en_attente',
     },
     {
       'id': 'C002',
@@ -63,8 +63,8 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
       'salle_nom': 'Salle de Conférence',
       'createur': 'Dr. ZONGO',
       'validateur': 'Prof. OUATTARA',
-      'status': 'validé'
-    }
+      'status': 'validé',
+    },
   ];
 
   List<Map<String, dynamic>> _sallesList = [
@@ -106,11 +106,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
                 color: Color(0xFFF59E0B),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                Icons.edit_note,
-                color: Colors.white,
-                size: 20,
-              ),
+              child: Icon(Icons.edit_note, color: Colors.white, size: 20),
             ),
             SizedBox(width: 12),
             Column(
@@ -127,10 +123,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
                 ),
                 Text(
                   'Gestion des modifications',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: Colors.white70, fontSize: 12),
                 ),
               ],
             ),
@@ -157,7 +150,8 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
             SizedBox(height: 20),
 
             // Formulaire de modification
-            if (_courseFound && _selectedCourse != null) _buildModificationForm(),
+            if (_courseFound && _selectedCourse != null)
+              _buildModificationForm(),
           ],
         ),
       ),
@@ -189,11 +183,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
                   color: Color(0xFF1E3A8A).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
-                  Icons.search,
-                  color: Color(0xFF1E3A8A),
-                  size: 24,
-                ),
+                child: Icon(Icons.search, color: Color(0xFF1E3A8A), size: 24),
               ),
               SizedBox(width: 12),
               Text(
@@ -276,11 +266,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
         ),
         child: Column(
           children: [
-            Icon(
-              Icons.search_off,
-              size: 64,
-              color: Color(0xFF64748B),
-            ),
+            Icon(Icons.search_off, size: 64, color: Color(0xFF64748B)),
             SizedBox(height: 16),
             Text(
               'Aucun résultat trouvé',
@@ -292,9 +278,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
             ),
             Text(
               'Vérifiez l\'ID ou le titre du cours',
-              style: TextStyle(
-                color: Color(0xFF64748B),
-              ),
+              style: TextStyle(color: Color(0xFF64748B)),
             ),
           ],
         ),
@@ -335,21 +319,26 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
             itemBuilder: (context, index) {
               final course = _coursesList[index];
               return ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
                 leading: Container(
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: course['type'] == 'Cours'
-                        ? Color(0xFF3B82F6).withOpacity(0.1)
-                        : Color(0xFF10B981).withOpacity(0.1),
+                    color:
+                        course['type'] == 'Cours'
+                            ? Color(0xFF3B82F6).withOpacity(0.1)
+                            : Color(0xFF10B981).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
                     course['type'] == 'Cours' ? Icons.book : Icons.groups,
-                    color: course['type'] == 'Cours'
-                        ? Color(0xFF3B82F6)
-                        : Color(0xFF10B981),
+                    color:
+                        course['type'] == 'Cours'
+                            ? Color(0xFF3B82F6)
+                            : Color(0xFF10B981),
                   ),
                 ),
                 title: Text(
@@ -363,23 +352,27 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('ID: ${course['id']} • ${course['type']}'),
-                    Text('${course['date']} à ${course['heure']} - ${course['salle_nom']}'),
+                    Text(
+                      '${course['date']} à ${course['heure']} - ${course['salle_nom']}',
+                    ),
                   ],
                 ),
                 trailing: Container(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: course['status'] == 'validé'
-                        ? Color(0xFF10B981).withOpacity(0.1)
-                        : Color(0xFFF59E0B).withOpacity(0.1),
+                    color:
+                        course['status'] == 'validé'
+                            ? Color(0xFF10B981).withOpacity(0.1)
+                            : Color(0xFFF59E0B).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
                     course['status'] == 'validé' ? 'Validé' : 'En attente',
                     style: TextStyle(
-                      color: course['status'] == 'validé'
-                          ? Color(0xFF10B981)
-                          : Color(0xFFF59E0B),
+                      color:
+                          course['status'] == 'validé'
+                              ? Color(0xFF10B981)
+                              : Color(0xFFF59E0B),
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),
@@ -421,11 +414,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
                     color: Color(0xFFF59E0B).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(
-                    Icons.edit,
-                    color: Color(0xFFF59E0B),
-                    size: 24,
-                  ),
+                  child: Icon(Icons.edit, color: Color(0xFFF59E0B), size: 24),
                 ),
                 SizedBox(width: 12),
                 Text(
@@ -458,7 +447,8 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
             // Type de cours
             _buildDropdownField(
               label: 'Type',
-              value: _typeController.text.isNotEmpty ? _typeController.text : null,
+              value:
+                  _typeController.text.isNotEmpty ? _typeController.text : null,
               items: ['Cours', 'TD'],
               icon: Icons.category,
               onChanged: (value) {
@@ -484,7 +474,8 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
             _buildDropdownField(
               label: 'Salle',
               value: _selectedSalle,
-              items: _sallesList.map((salle) => salle['nom'] as String).toList(),
+              items:
+                  _sallesList.map((salle) => salle['nom'] as String).toList(),
               icon: Icons.meeting_room,
               onChanged: (value) {
                 setState(() {
@@ -499,7 +490,8 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
             _buildDropdownField(
               label: 'Validateur',
               value: _selectedValidateur,
-              items: _validateursList.map((val) => val['nom'] as String).toList(),
+              items:
+                  _validateursList.map((val) => val['nom'] as String).toList(),
               icon: Icons.person_outline,
               onChanged: (value) {
                 setState(() {
@@ -614,12 +606,10 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
         DropdownButtonFormField<String>(
           value: value,
           onChanged: onChanged,
-          items: items.map((String item) {
-            return DropdownMenuItem<String>(
-              value: item,
-              child: Text(item),
-            );
-          }).toList(),
+          items:
+              items.map((String item) {
+                return DropdownMenuItem<String>(value: item, child: Text(item));
+              }).toList(),
           decoration: InputDecoration(
             prefixIcon: Icon(icon, color: Color(0xFF64748B)),
             border: OutlineInputBorder(
@@ -732,10 +722,11 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
 
     // Simulation d'une recherche - remplacer par un appel API réel
     Future.delayed(Duration(milliseconds: 500), () {
-      final results = _coursesList.where((course) {
-        return course['id'].toLowerCase().contains(query.toLowerCase()) ||
-            course['titre'].toLowerCase().contains(query.toLowerCase());
-      }).toList();
+      final results =
+          _coursesList.where((course) {
+            return course['id'].toLowerCase().contains(query.toLowerCase()) ||
+                course['titre'].toLowerCase().contains(query.toLowerCase());
+          }).toList();
 
       setState(() {
         _coursesList = results;
@@ -768,9 +759,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Color(0xFF1E3A8A),
-            ),
+            colorScheme: ColorScheme.light(primary: Color(0xFF1E3A8A)),
           ),
           child: child!,
         );
@@ -779,7 +768,8 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
 
     if (picked != null) {
       setState(() {
-        _dateController.text = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+        _dateController.text =
+            "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
       });
     }
   }
@@ -791,9 +781,7 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Color(0xFF1E3A8A),
-            ),
+            colorScheme: ColorScheme.light(primary: Color(0xFF1E3A8A)),
           ),
           child: child!,
         );
@@ -802,7 +790,8 @@ class _ModifierCoursPageState extends State<ModifierCoursPage> {
 
     if (picked != null) {
       setState(() {
-        _heureController.text = "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
+        _heureController.text =
+            "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
       });
     }
   }

@@ -25,17 +25,14 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       ),
     ),
-    cardTheme: CardThemeData( // Remplacement de CardTheme par CardThemeData
+    cardTheme: CardThemeData(
+      // Remplacement de CardTheme par CardThemeData
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -65,25 +62,19 @@ class AppTheme {
       secondary: secondaryColor,
       error: errorColor,
     ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.grey[900],
-      elevation: 0,
-    ),
+    appBarTheme: AppBarTheme(backgroundColor: Colors.grey[900], elevation: 0),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       ),
     ),
-    cardTheme: CardThemeData( // Remplacement de CardTheme par CardThemeData
+    cardTheme: CardThemeData(
+      // Remplacement de CardTheme par CardThemeData
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,

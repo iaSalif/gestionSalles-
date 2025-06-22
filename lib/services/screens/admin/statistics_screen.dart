@@ -25,7 +25,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     'Cette semaine',
     'Ce mois',
     'Ce trimestre',
-    'Cette année'
+    'Cette année',
   ];
 
   @override
@@ -69,10 +69,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     return AppBar(
       title: const Text(
         'Statistiques',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       backgroundColor: _primaryColor,
       elevation: 0,
@@ -108,12 +105,13 @@ class _StatisticsScreenState extends State<StatisticsScreen>
               value: _selectedPeriod,
               isExpanded: true,
               underline: Container(),
-              items: _periods.map((String period) {
-                return DropdownMenuItem<String>(
-                  value: period,
-                  child: Text(period),
-                );
-              }).toList(),
+              items:
+                  _periods.map((String period) {
+                    return DropdownMenuItem<String>(
+                      value: period,
+                      child: Text(period),
+                    );
+                  }).toList(),
               onChanged: (String? newValue) {
                 if (newValue != null) {
                   setState(() {
@@ -210,7 +208,13 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color, String trend) {
+  Widget _buildStatCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+    String trend,
+  ) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -274,10 +278,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           Flexible(
             child: Text(
               title,
-              style: TextStyle(
-                fontSize: 11,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 11, color: Colors.grey[600]),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -323,7 +324,15 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        const days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+                        const days = [
+                          'Lun',
+                          'Mar',
+                          'Mer',
+                          'Jeu',
+                          'Ven',
+                          'Sam',
+                          'Dim',
+                        ];
                         if (value.toInt() >= 0 && value.toInt() < days.length) {
                           return Text(
                             days[value.toInt()],
@@ -345,8 +354,12 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                       },
                     ),
                   ),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
@@ -414,7 +427,11 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             ),
           ),
           const SizedBox(height: 16),
-          _buildMetricRow('Durée moyenne de réservation', '2h 30min', Icons.access_time),
+          _buildMetricRow(
+            'Durée moyenne de réservation',
+            '2h 30min',
+            Icons.access_time,
+          ),
           _buildMetricRow('Taux d\'annulation', '8%', Icons.cancel),
           _buildMetricRow('Pic d\'utilisation', '14h-16h', Icons.trending_up),
           _buildMetricRow('Salle la plus demandée', 'Amphi A', Icons.star),
@@ -433,10 +450,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
-                fontSize: 14,
-                color: _textColor,
-              ),
+              style: const TextStyle(fontSize: 14, color: _textColor),
             ),
           ),
           Flexible(
@@ -562,10 +576,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           Container(
             width: 10,
             height: 10,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           ),
           const SizedBox(width: 4),
           Flexible(
@@ -616,7 +627,12 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     );
   }
 
-  Widget _buildRoomItem(String roomName, String usage, IconData icon, Color color) {
+  Widget _buildRoomItem(
+    String roomName,
+    String usage,
+    IconData icon,
+    Color color,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -755,18 +771,42 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                       },
                     ),
                   ),
-                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  leftTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
                 borderData: FlBorderData(show: false),
                 barGroups: [
-                  BarChartGroupData(x: 8, barRods: [BarChartRodData(toY: 5, color: _primaryColor)]),
-                  BarChartGroupData(x: 10, barRods: [BarChartRodData(toY: 12, color: _primaryColor)]),
-                  BarChartGroupData(x: 12, barRods: [BarChartRodData(toY: 18, color: _primaryColor)]),
-                  BarChartGroupData(x: 14, barRods: [BarChartRodData(toY: 25, color: _primaryColor)]),
-                  BarChartGroupData(x: 16, barRods: [BarChartRodData(toY: 22, color: _primaryColor)]),
-                  BarChartGroupData(x: 18, barRods: [BarChartRodData(toY: 8, color: _primaryColor)]),
+                  BarChartGroupData(
+                    x: 8,
+                    barRods: [BarChartRodData(toY: 5, color: _primaryColor)],
+                  ),
+                  BarChartGroupData(
+                    x: 10,
+                    barRods: [BarChartRodData(toY: 12, color: _primaryColor)],
+                  ),
+                  BarChartGroupData(
+                    x: 12,
+                    barRods: [BarChartRodData(toY: 18, color: _primaryColor)],
+                  ),
+                  BarChartGroupData(
+                    x: 14,
+                    barRods: [BarChartRodData(toY: 25, color: _primaryColor)],
+                  ),
+                  BarChartGroupData(
+                    x: 16,
+                    barRods: [BarChartRodData(toY: 22, color: _primaryColor)],
+                  ),
+                  BarChartGroupData(
+                    x: 18,
+                    barRods: [BarChartRodData(toY: 8, color: _primaryColor)],
+                  ),
                 ],
               ),
             ),
@@ -802,17 +842,47 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             ),
           ),
           const SizedBox(height: 16),
-          _buildUserItem('Dr. Martin', 'Professeur', '24 réservations', Icons.person),
-          _buildUserItem('Sophie Dubois', 'Étudiante', '18 réservations', Icons.person),
-          _buildUserItem('Jean Dupont', 'Professeur', '15 réservations', Icons.person),
-          _buildUserItem('Marie Claire', 'Personnel', '12 réservations', Icons.person),
-          _buildUserItem('Ahmed Hassan', 'Étudiant', '10 réservations', Icons.person),
+          _buildUserItem(
+            'Dr. Martin',
+            'Professeur',
+            '24 réservations',
+            Icons.person,
+          ),
+          _buildUserItem(
+            'Sophie Dubois',
+            'Étudiante',
+            '18 réservations',
+            Icons.person,
+          ),
+          _buildUserItem(
+            'Jean Dupont',
+            'Professeur',
+            '15 réservations',
+            Icons.person,
+          ),
+          _buildUserItem(
+            'Marie Claire',
+            'Personnel',
+            '12 réservations',
+            Icons.person,
+          ),
+          _buildUserItem(
+            'Ahmed Hassan',
+            'Étudiant',
+            '10 réservations',
+            Icons.person,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildUserItem(String name, String role, String reservations, IconData icon) {
+  Widget _buildUserItem(
+    String name,
+    String role,
+    String reservations,
+    IconData icon,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -837,10 +907,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                 ),
                 Text(
                   role,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 11, color: Colors.grey[600]),
                 ),
               ],
             ),
@@ -871,7 +938,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             'Analyse détaillée de l\'utilisation des salles ce mois',
             Icons.description,
             _primaryColor,
-                () => _generateReport('monthly'),
+            () => _generateReport('monthly'),
           ),
           const SizedBox(height: 16),
           _buildReportCard(
@@ -879,7 +946,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             'Feedback des utilisateurs et évaluations',
             Icons.sentiment_satisfied,
             const Color(0xFF4CAF50),
-                () => _generateReport('satisfaction'),
+            () => _generateReport('satisfaction'),
           ),
           const SizedBox(height: 16),
           _buildReportCard(
@@ -887,7 +954,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             'Coûts et revenus liés aux réservations',
             Icons.attach_money,
             const Color(0xFFFF9800),
-                () => _generateReport('financial'),
+            () => _generateReport('financial'),
           ),
           const SizedBox(height: 16),
           _buildReportCard(
@@ -895,7 +962,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             'État des équipements et besoins de maintenance',
             Icons.build,
             const Color(0xFF9C27B0),
-                () => _generateReport('maintenance'),
+            () => _generateReport('maintenance'),
           ),
           const SizedBox(height: 16),
           _buildReportCard(
@@ -903,14 +970,20 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             'Créer un rapport selon vos critères',
             Icons.tune,
             const Color(0xFF607D8B),
-                () => _showCustomReportDialog(),
+            () => _showCustomReportDialog(),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildReportCard(String title, String description, IconData icon, Color color, VoidCallback onTap) {
+  Widget _buildReportCard(
+    String title,
+    String description,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -945,10 +1018,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                     const SizedBox(height: 4),
                     Text(
                       description,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
                   ],
                 ),
@@ -1002,7 +1072,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     );
   }
 
-// Fonction pour exporter en PDF
+  // Fonction pour exporter en PDF
   void _exportToPDF() async {
     try {
       // Implémentation de l'export PDF
@@ -1032,7 +1102,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     }
   }
 
-// Fonction pour exporter en CSV
+  // Fonction pour exporter en CSV
   void _exportToCSV() async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1061,7 +1131,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     }
   }
 
-// Fonction pour exporter en Excel
+  // Fonction pour exporter en Excel
   void _exportToExcel() async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1090,7 +1160,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     }
   }
   // Ajoutez ces méthodes à la fin de votre classe _StatisticsScreenState
-// juste avant la dernière accolade fermante }
+  // juste avant la dernière accolade fermante }
 
   void _refreshStatistics() {
     setState(() {
@@ -1111,7 +1181,9 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Génération du rapport ${_getReportTypeName(reportType)} en cours...'),
+          content: Text(
+            'Génération du rapport ${_getReportTypeName(reportType)} en cours...',
+          ),
           backgroundColor: Colors.blue,
         ),
       );
@@ -1138,7 +1210,9 @@ class _StatisticsScreenState extends State<StatisticsScreen>
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Rapport ${_getReportTypeName(reportType)} généré avec succès !'),
+          content: Text(
+            'Rapport ${_getReportTypeName(reportType)} généré avec succès !',
+          ),
           backgroundColor: Colors.green,
         ),
       );
@@ -1206,26 +1280,36 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                 const SizedBox(height: 16),
 
                 // Sélection de la période
-                const Text('Période :', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
+                  'Période :',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                   ),
-                  items: _periods.map((String period) {
-                    return DropdownMenuItem<String>(
-                      value: period,
-                      child: Text(period),
-                    );
-                  }).toList(),
+                  items:
+                      _periods.map((String period) {
+                        return DropdownMenuItem<String>(
+                          value: period,
+                          child: Text(period),
+                        );
+                      }).toList(),
                   onChanged: (String? value) {},
                   hint: const Text('Sélectionner une période'),
                 ),
                 const SizedBox(height: 16),
 
                 // Types de données à inclure
-                const Text('Données à inclure :', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
+                  'Données à inclure :',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 CheckboxListTile(
                   title: const Text('Utilisation des salles'),
@@ -1307,7 +1391,9 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erreur lors de la génération du rapport personnalisé: $e'),
+          content: Text(
+            'Erreur lors de la génération du rapport personnalisé: $e',
+          ),
           backgroundColor: Colors.red,
         ),
       );

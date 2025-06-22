@@ -15,6 +15,7 @@ dependencies:
   firebase_auth: ^5.5.4
   cloud_firestore: ^5.6.8
   shared_preferences: ^2.2.2
+  google_fonts: ^6.1.0
   # Pour les graphiques et statistiques
   fl_chart: ^0.68.0  # Pour les graphiques (LineChart, BarChart, PieChart)
 
@@ -31,6 +32,7 @@ dependencies:
   # Pour les dates et formatage
   intl: ^0.19.0  # Pour le formatage des nombres et dates
   firebase_performance: ^0.10.1+6
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -44,3 +46,6 @@ flutter:
     - assets/backgrounds/
     # ou spécifiquement
     - assets/backgrounds/login_bg.png
+    - assets/images/unz1.jpg
+    - assets/images/unz2.jpg
+    - assets/images/unz3.jpg

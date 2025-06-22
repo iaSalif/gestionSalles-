@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 /// Couleurs officielles de l'Université Nazi Boni (UNZ)
 class UNZColors {
   // Couleurs principales UNZ
-  static const Color primaryBlue = Color(0xFF1E3A8A);      // Bleu principal UNZ
-  static const Color secondaryBlue = Color(0xFF3B82F6);    // Bleu secondaire
-  static const Color accentGold = Color(0xFFFFB800);       // Or/Jaune académique
-  static const Color darkBlue = Color(0xFF1E40AF);         // Bleu foncé
+  static const Color primaryBlue = Color(0xFF1E3A8A); // Bleu principal UNZ
+  static const Color secondaryBlue = Color(0xFF3B82F6); // Bleu secondaire
+  static const Color accentGold = Color(0xFFFFB800); // Or/Jaune académique
+  static const Color darkBlue = Color(0xFF1E40AF); // Bleu foncé
 
   // Couleurs fonctionnelles
-  static const Color success = Color(0xFF10B981);          // Vert succès
-  static const Color warning = Color(0xFFF59E0B);          // Orange avertissement
-  static const Color error = Color(0xFFEF4444);            // Rouge erreur
-  static const Color info = Color(0xFF3B82F6);             // Bleu information
+  static const Color success = Color(0xFF10B981); // Vert succès
+  static const Color warning = Color(0xFFF59E0B); // Orange avertissement
+  static const Color error = Color(0xFFEF4444); // Rouge erreur
+  static const Color info = Color(0xFF3B82F6); // Bleu information
 
   // Couleurs neutres
   static const Color white = Color(0xFFFFFFFF);

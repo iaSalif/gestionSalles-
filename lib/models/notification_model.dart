@@ -31,6 +31,7 @@ class NotificationModel {
     this.isActive = true,
     this.scheduledAt,
     required this.senderId,
+    required timestamp,
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
@@ -39,10 +40,10 @@ class NotificationModel {
       title: json['title'],
       message: json['message'],
       type: NotificationType.values.firstWhere(
-            (e) => e.toString() == 'NotificationType.${json['type']}',
+        (e) => e.toString() == 'NotificationType.${json['type']}',
       ),
       priority: NotificationPriority.values.firstWhere(
-            (e) => e.toString() == 'NotificationPriority.${json['priority']}',
+        (e) => e.toString() == 'NotificationPriority.${json['priority']}',
       ),
       createdAt: DateTime.parse(json['createdAt']),
       targetUserId: json['targetUserId'],
@@ -50,8 +51,12 @@ class NotificationModel {
       relatedRoomId: json['relatedRoomId'],
       isRead: json['isRead'] ?? false,
       isActive: json['isActive'] ?? true,
-      scheduledAt: json['scheduledAt'] != null ? DateTime.parse(json['scheduledAt']) : null,
+      scheduledAt:
+          json['scheduledAt'] != null
+              ? DateTime.parse(json['scheduledAt'])
+              : null,
       senderId: json['senderId'],
+      timestamp: null,
     );
   }
 
@@ -102,6 +107,7 @@ class NotificationModel {
       isActive: isActive ?? this.isActive,
       scheduledAt: scheduledAt ?? this.scheduledAt,
       senderId: senderId ?? this.senderId,
+      timestamp: null,
     );
   }
 }
@@ -117,15 +123,9 @@ enum NotificationType {
   emergency,
 }
 
-enum NotificationPriority {
-  low,
-  medium,
-  high,
-  urgent,
-}
+enum NotificationPriority { low, medium, high, urgent }
 
 // services/notification_service.dart
-
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -134,10 +134,12 @@ class NotificationService {
 
   final List<NotificationModel> _notifications = [];
   final StreamController<List<NotificationModel>> _notificationsController =
-  StreamController<List<NotificationModel>>.broadcast();
+      StreamController<List<NotificationModel>>.broadcast();
 
-  Stream<List<NotificationModel>> get notificationsStream => _notificationsController.stream;
-  List<NotificationModel> get notifications => List.unmodifiable(_notifications);
+  Stream<List<NotificationModel>> get notificationsStream =>
+      _notificationsController.stream;
+  List<NotificationModel> get notifications =>
+      List.unmodifiable(_notifications);
 
   // Simuler l'ajout de notifications initiales
   void initializeNotifications() {
@@ -145,12 +147,14 @@ class NotificationService {
       NotificationModel(
         id: _generateId(),
         title: 'Maintenance programmée',
-        message: 'La salle A101 sera fermée pour maintenance le 15 juin de 14h à 16h.',
+        message:
+            'La salle A101 sera fermée pour maintenance le 15 juin de 14h à 16h.',
         type: NotificationType.maintenanceAlert,
         priority: NotificationPriority.high,
         createdAt: DateTime.now().subtract(const Duration(hours: 2)),
         relatedRoomId: 'room_a101',
         senderId: 'admin_001',
+        timestamp: null,
       ),
       NotificationModel(
         id: _generateId(),
@@ -160,17 +164,20 @@ class NotificationService {
         priority: NotificationPriority.medium,
         createdAt: DateTime.now().subtract(const Duration(hours: 5)),
         senderId: 'admin_001',
+        timestamp: null,
       ),
       NotificationModel(
         id: _generateId(),
         title: 'Réservation annulée',
-        message: 'La réservation de la salle B203 pour demain à 10h a été annulée.',
+        message:
+            'La réservation de la salle B203 pour demain à 10h a été annulée.',
         type: NotificationType.roomCancellation,
         priority: NotificationPriority.medium,
         createdAt: DateTime.now().subtract(const Duration(days: 1)),
         relatedRoomId: 'room_b203',
         senderId: 'user_123',
         isRead: true,
+        timestamp: null,
       ),
     ]);
     _notificationsController.add(_notifications);
@@ -216,7 +223,9 @@ class NotificationService {
     return _notifications.where((n) => n.type == type).toList();
   }
 
-  List<NotificationModel> getNotificationsByPriority(NotificationPriority priority) {
+  List<NotificationModel> getNotificationsByPriority(
+    NotificationPriority priority,
+  ) {
     return _notifications.where((n) => n.priority == priority).toList();
   }
 

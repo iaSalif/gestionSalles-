@@ -55,11 +55,7 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
                       color: _primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(
-                      Icons.send,
-                      color: _primaryColor,
-                      size: 24,
-                    ),
+                    child: Icon(Icons.send, color: _primaryColor, size: 24),
                   ),
                   const SizedBox(width: 16),
                   const Expanded(
@@ -137,25 +133,29 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.category),
                         ),
-                        isExpanded: true, // Important : permet au dropdown de prendre toute la largeur
-                        items: NotificationType.values.map((type) {
-                          return DropdownMenuItem(
-                            value: type,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min, // Évite le débordement
-                              children: [
-                                Icon(_getTypeIcon(type), size: 16),
-                                const SizedBox(width: 8),
-                                Flexible( // Permet au texte de s'adapter
-                                  child: Text(
-                                    _getTypeDisplayName(type),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                        isExpanded:
+                            true, // Important : permet au dropdown de prendre toute la largeur
+                        items:
+                            NotificationType.values.map((type) {
+                              return DropdownMenuItem(
+                                value: type,
+                                child: Row(
+                                  mainAxisSize:
+                                      MainAxisSize.min, // Évite le débordement
+                                  children: [
+                                    Icon(_getTypeIcon(type), size: 16),
+                                    const SizedBox(width: 8),
+                                    Flexible(
+                                      // Permet au texte de s'adapter
+                                      child: Text(
+                                        _getTypeDisplayName(type),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                              );
+                            }).toList(),
                         onChanged: (value) {
                           setState(() {
                             _selectedType = value!;
@@ -172,32 +172,36 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.priority_high),
                         ),
-                        isExpanded: true, // Important : permet au dropdown de prendre toute la largeur
-                        items: NotificationPriority.values.map((priority) {
-                          return DropdownMenuItem(
-                            value: priority,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min, // Évite le débordement
-                              children: [
-                                Container(
-                                  width: 12,
-                                  height: 12,
-                                  decoration: BoxDecoration(
-                                    color: _getPriorityColor(priority),
-                                    shape: BoxShape.circle,
-                                  ),
+                        isExpanded:
+                            true, // Important : permet au dropdown de prendre toute la largeur
+                        items:
+                            NotificationPriority.values.map((priority) {
+                              return DropdownMenuItem(
+                                value: priority,
+                                child: Row(
+                                  mainAxisSize:
+                                      MainAxisSize.min, // Évite le débordement
+                                  children: [
+                                    Container(
+                                      width: 12,
+                                      height: 12,
+                                      decoration: BoxDecoration(
+                                        color: _getPriorityColor(priority),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Flexible(
+                                      // Permet au texte de s'adapter
+                                      child: Text(
+                                        _getPriorityDisplayName(priority),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 8),
-                                Flexible( // Permet au texte de s'adapter
-                                  child: Text(
-                                    _getPriorityDisplayName(priority),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                              );
+                            }).toList(),
                         onChanged: (value) {
                           setState(() {
                             _selectedPriority = value!;
@@ -237,7 +241,9 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
                                             decoration: const InputDecoration(
                                               labelText: 'Date',
                                               border: OutlineInputBorder(),
-                                              prefixIcon: Icon(Icons.calendar_today),
+                                              prefixIcon: Icon(
+                                                Icons.calendar_today,
+                                              ),
                                             ),
                                             child: Text(
                                               _scheduledDate != null
@@ -255,7 +261,9 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
                                             decoration: const InputDecoration(
                                               labelText: 'Heure',
                                               border: OutlineInputBorder(),
-                                              prefixIcon: Icon(Icons.access_time),
+                                              prefixIcon: Icon(
+                                                Icons.access_time,
+                                              ),
                                             ),
                                             child: Text(
                                               _scheduledTime != null
@@ -268,7 +276,8 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
                                     ],
                                   ),
                                   const SizedBox(height: 8),
-                                  if (_scheduledDate != null || _scheduledTime != null)
+                                  if (_scheduledDate != null ||
+                                      _scheduledTime != null)
                                     Row(
                                       children: [
                                         TextButton.icon(
@@ -363,10 +372,22 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
             ),
             isExpanded: true, // Correction appliquée ici aussi
             items: const [
-              DropdownMenuItem(value: 'ufr1', child: Text('UFR Sciences et Technologies')),
-              DropdownMenuItem(value: 'ufr2', child: Text('UFR Lettres et Sciences Humaines')),
-              DropdownMenuItem(value: 'ufr3', child: Text('UFR Sciences Économiques')),
-              DropdownMenuItem(value: 'ufr4', child: Text('UFR Sciences Juridiques')),
+              DropdownMenuItem(
+                value: 'ufr1',
+                child: Text('UFR Sciences et Technologies'),
+              ),
+              DropdownMenuItem(
+                value: 'ufr2',
+                child: Text('UFR Lettres et Sciences Humaines'),
+              ),
+              DropdownMenuItem(
+                value: 'ufr3',
+                child: Text('UFR Sciences Économiques'),
+              ),
+              DropdownMenuItem(
+                value: 'ufr4',
+                child: Text('UFR Sciences Juridiques'),
+              ),
             ],
             onChanged: (value) {
               setState(() {
@@ -374,7 +395,8 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
               });
             },
             validator: (value) {
-              if (_targetAudience == 'ufr' && (value == null || value.isEmpty)) {
+              if (_targetAudience == 'ufr' &&
+                  (value == null || value.isEmpty)) {
                 return 'Veuillez sélectionner une UFR';
               }
               return null;
@@ -404,9 +426,18 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
             ),
             isExpanded: true, // Correction appliquée ici aussi
             items: const [
-              DropdownMenuItem(value: 'user1', child: Text('Prof. Martin Dupont')),
-              DropdownMenuItem(value: 'user2', child: Text('Dr. Sarah Johnson')),
-              DropdownMenuItem(value: 'user3', child: Text('Prof. Ahmed Benali')),
+              DropdownMenuItem(
+                value: 'user1',
+                child: Text('Prof. Martin Dupont'),
+              ),
+              DropdownMenuItem(
+                value: 'user2',
+                child: Text('Dr. Sarah Johnson'),
+              ),
+              DropdownMenuItem(
+                value: 'user3',
+                child: Text('Prof. Ahmed Benali'),
+              ),
             ],
             onChanged: (value) {
               setState(() {
@@ -414,7 +445,8 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
               });
             },
             validator: (value) {
-              if (_targetAudience == 'individual' && (value == null || value.isEmpty)) {
+              if (_targetAudience == 'individual' &&
+                  (value == null || value.isEmpty)) {
                 return 'Veuillez sélectionner un utilisateur';
               }
               return null;
@@ -474,7 +506,8 @@ class _SendNotificationDialogState extends State<SendNotificationDialog> {
         targetUserId: _targetAudience == 'individual' ? _selectedUserId : null,
         targetUfrId: _targetAudience == 'ufr' ? _selectedUfrId : null,
         scheduledAt: scheduledDateTime,
-        senderId: 'admin_001', // ID de l'administrateur connecté
+        senderId: 'admin_001',
+        timestamp: null, // ID de l'administrateur connecté
       );
 
       Navigator.pop(context, notification);
